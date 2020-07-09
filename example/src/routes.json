@@ -1,0 +1,118 @@
+[
+  {
+    "path": "/",
+    "component": "./src/layouts/index.js",
+    "routes": [
+      {
+        "path": "/first",
+        "exact": true,
+        "component": "./src/pages/first/index.js",
+        "title": 1
+      },
+      {
+        "path": "/",
+        "exact": true,
+        "component": "./src/pages/index.js",
+        "title": 0
+      },
+      {
+        "path": "/third",
+        "exact": false,
+        "component": "./src/pages/third/_layout.js",
+        "routes": [
+          {
+            "path": "/third/first",
+            "exact": true,
+            "component": "./src/pages/third/first/index.js",
+            "title": "3-1"
+          },
+          {
+            "path": "/third",
+            "exact": true,
+            "component": "./src/pages/third/index.js",
+            "title": 3
+          },
+          {
+            "path": "/third/second",
+            "exact": false,
+            "component": "./src/pages/third/second/_layout.js",
+            "routes": [
+              {
+                "path": "/third/second/first",
+                "exact": true,
+                "component": "./src/pages/third/second/first/index.js",
+                "title": "3-2-1"
+              },
+              {
+                "path": "/third/second",
+                "exact": true,
+                "component": "./src/pages/third/second/index.js",
+                "title": "3-2"
+              },
+              {
+                "component": "() => React.createElement(require('/Users/alex/Documents/GitHub/umi-plugin-menus/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })"
+              }
+            ],
+            "title": "3-2-layout"
+          },
+          {
+            "component": "() => React.createElement(require('/Users/alex/Documents/GitHub/umi-plugin-menus/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })"
+          }
+        ],
+        "title": "3-layout"
+      },
+      {
+        "path": "/ttt",
+        "exact": false,
+        "component": "./src/pages/ttt/_layout.js",
+        "routes": [
+          {
+            "path": "/ttt/first",
+            "exact": true,
+            "component": "./src/pages/ttt/first/index.js",
+            "title": "3-1"
+          },
+          {
+            "path": "/ttt",
+            "exact": true,
+            "component": "./src/pages/ttt/index.js",
+            "title": 3
+          },
+          {
+            "path": "/ttt/second",
+            "exact": false,
+            "component": "./src/pages/ttt/second/_layout.js",
+            "routes": [
+              {
+                "path": "/ttt/second/first",
+                "exact": true,
+                "component": "./src/pages/ttt/second/first/index.js",
+                "title": "3-2-1"
+              },
+              {
+                "path": "/ttt/second",
+                "exact": true,
+                "component": "./src/pages/ttt/second/index.js",
+                "title": "3-2"
+              },
+              {
+                "component": "() => React.createElement(require('/Users/alex/Documents/GitHub/umi-plugin-menus/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })"
+              }
+            ],
+            "title": "3-2-layout"
+          },
+          {
+            "component": "() => React.createElement(require('/Users/alex/Documents/GitHub/umi-plugin-menus/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })"
+          }
+        ],
+        "title": "3-layout"
+      },
+      {
+        "component": "() => React.createElement(require('/Users/alex/Documents/GitHub/umi-plugin-menus/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })"
+      }
+    ]
+  },
+  {
+    "component": "() => React.createElement(require('/Users/alex/Documents/GitHub/umi-plugin-menus/node_modules/umi-build-dev/lib/plugins/404/NotFound.js').default, { pagesPath: 'src/pages', hasRoutesInConfig: false })"
+  }
+]

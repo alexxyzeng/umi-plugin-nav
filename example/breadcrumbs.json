@@ -1,0 +1,60 @@
+{
+  "breadcrumbs": {
+    "routeHashes": [
+      {
+        "/first": "/",
+        "/third": "/",
+        "/third/first": "/third",
+        "/third/second": "/third",
+        "/third/second/first": "/third/second",
+        "/ttt": "/",
+        "/ttt/first": "/ttt",
+        "/ttt/second": "/ttt",
+        "/ttt/second/first": "/ttt/second"
+      }
+    ],
+    "routeInfoHashes": [
+      {
+        "/": {
+          "path": "/"
+        },
+        "/first": {
+          "path": "/first",
+          "title": "first"
+        },
+        "/third": {
+          "path": "/third",
+          "title": "3-layout"
+        },
+        "/third/first": {
+          "path": "/third/first",
+          "title": "3-1"
+        },
+        "/third/second": {
+          "path": "/third/second",
+          "title": "3-2-layout"
+        },
+        "/third/second/first": {
+          "path": "/third/second/first",
+          "title": "3-2-11"
+        },
+        "/ttt": {
+          "path": "/ttt",
+          "title": "3-layout"
+        },
+        "/ttt/first": {
+          "path": "/ttt/first",
+          "title": "3-1"
+        },
+        "/ttt/second": {
+          "path": "/ttt/second",
+          "title": "3-2-layout"
+        },
+        "/ttt/second/first": {
+          "path": "/ttt/second/first",
+          "title": "3-2-1"
+        }
+      }
+    ]
+  }
+}

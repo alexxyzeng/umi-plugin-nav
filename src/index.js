@@ -4,7 +4,7 @@ const path = require('path');
 const fs = require('fs');
 
 const defaultOptions = {
-  menuOutputPath: path.resolve('.', './menu.json'),
+  menuOutputPath: path.resolve('.', './menus.json'),
   breadCrumbOutputPath: path.resolve('.', './breadcrumbs.json'),
   generateBreadcrmbs: true,
   excludes: ['exact', 'component', 'routes'],
@@ -36,7 +36,7 @@ function recursiveParseRoutes(routeList = [], parent = {}, opts = {}) {
       }
     })
 
-    routeInfoHashes[path] = {...finalMenu}
+    routeInfoHashes[path] = { ...finalMenu }
     if (Array.isArray(routes) && routes.length > 0) {
       finalMenu['children'] = recursiveParseRoutes(routes, route, opts)
     }
@@ -55,37 +55,51 @@ function recursiveParseRoutes(routeList = [], parent = {}, opts = {}) {
   return finalMenus
 }
 
+function parseBreadcrumbInfo(routeHashes, routeInfoHashes) {
+  let breadcrumbs = {}
+  for (let i in routeHashes) {
+    let parentRoute = routeHashes[i]
+    if (!breadcrumbs[i]) {
+      breadcrumbs[i] = []
+    }
+    if (parentRoute) {
+      breadcrumbs[i] = [parentRoute]
+      while (routeHashes[parentRoute]) {
+        parentRoute = routeHashes[parentRoute]
+        breadcrumbs[i].unshift(parentRoute)
+      }
+    }
+
+  }
+  return {
+    breadcrumbs,
+    routeInfoHashes
+  }
+
+}
+
 export default function (api, options) {
   const { menuOutputPath, breadCrumbOutputPath, generateBreadcrmbs, ...restOpts } = defaultOptions;
   const opts = { ...restOpts, ...options }
   api.modifyRoutes(routes => {
     routeHashes = {}
     if (prevRoutes && JSON.stringify(prevRoutes) === JSON.stringify(routes)) {
-      return
+      return routes
     }
-    const menus = recursiveParseRoutes(routes, {}, opts)
+    api.log.pending('Parsing routes into menu infos...');
+    const menus = recursiveParseRoutes(routes, {}, opts);
+    api.log.pending('Successfully parsed menu infos.');
     fs.writeFileSync(menuOutputPath, JSON.stringify(menus, null, 2));
+    api.log.success('Success write menu infos.');
     if (generateBreadcrmbs) {
-      let breadcrumbs = {}
-      for (let i in routeHashes) {
-        let parentRoute = routeHashes[i]
-        if (!breadcrumbs[i]) {
-          breadcrumbs[i] = []
-        }
-        if (parentRoute) {
-          breadcrumbs[i] = [parentRoute]
-          while (routeHashes[parentRoute]) {
-            parentRoute = routeHashes[parentRoute]
-            breadcrumbs[i].unshift(parentRoute)
-          }
-        }
-
-      }
-      const breadcumbInfo = {
-        breadcrumbs,
+      api.log.pending('Parsing routes info breadcrumb infos...');
+      const breadcumbInfo = parseBreadcrumbInfo({
+        routeHashes,
         routeInfoHashes
-      }
+      })
+      api.log.pending('Successfully parsed breadcrumb infos...');
       fs.writeFileSync(breadCrumbOutputPath, JSON.stringify(breadcumbInfo, null, 2));
+      api.log.success('Successfully write menu breadcrumb infos.');
     }
     return routes
   })
