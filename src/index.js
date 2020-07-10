@@ -78,29 +78,39 @@ function parseBreadcrumbInfo(routeHashes, routeInfoHashes) {
 
 }
 
-export default function (api, options) {
+function generateRoutesAndBreadcrumbs(routes, options, api) {
   const { menuOutputPath, breadCrumbOutputPath, generateBreadcrmbs, ...restOpts } = defaultOptions;
   const opts = { ...restOpts, ...options }
-  api.modifyRoutes(routes => {
-    routeHashes = {}
-    if (prevRoutes && JSON.stringify(prevRoutes) === JSON.stringify(routes)) {
-      return routes
-    }
-    api.log.pending('Parsing routes into menu infos...');
-    const menus = recursiveParseRoutes(routes, {}, opts);
-    api.log.pending('Successfully parsed menu infos.');
-    fs.writeFileSync(menuOutputPath, JSON.stringify(menus, null, 2));
-    api.log.success('Success write menu infos.');
-    if (generateBreadcrmbs) {
-      api.log.pending('Parsing routes info breadcrumb infos...');
-      const breadcumbInfo = parseBreadcrumbInfo({
-        routeHashes,
-        routeInfoHashes
-      })
-      api.log.pending('Successfully parsed breadcrumb infos...');
-      fs.writeFileSync(breadCrumbOutputPath, JSON.stringify(breadcumbInfo, null, 2));
-      api.log.success('Successfully write menu breadcrumb infos.');
-    }
+  routeHashes = {}
+  routeInfoHashes = {}
+  if (prevRoutes && JSON.stringify(prevRoutes) === JSON.stringify(routes)) {
     return routes
+  }
+  api.log.pending('Parsing routes into menu infos...');
+  const menus = recursiveParseRoutes(routes, {}, opts);
+  api.log.pending('Successfully parsed menu infos.');
+  fs.writeFileSync(menuOutputPath, JSON.stringify(menus, null, 2));
+  api.log.success('Success write menu infos.');
+  if (generateBreadcrmbs) {
+    api.log.pending('Parsing routes info breadcrumb infos...');
+    const breadcumbInfo = parseBreadcrumbInfo(
+      routeHashes,
+      routeInfoHashes
+    )
+    api.log.pending('Successfully parsed breadcrumb infos...');
+    fs.writeFileSync(breadCrumbOutputPath, JSON.stringify(breadcumbInfo, null, 2));
+    api.log.success('Successfully write menu breadcrumb infos.');
+  }
+}
+
+export default function (api, options) {
+  api.modifyRoutes(routes => {
+    generateRoutesAndBreadcrumbs(routes, options, api);
+    return routes
+  })
+
+  api.registerCommand('generateRoutes', () => {
+    const routes = api.getRoutes();
+    generateRoutesAndBreadcrumbs(routes, options, api);
   })
 }
